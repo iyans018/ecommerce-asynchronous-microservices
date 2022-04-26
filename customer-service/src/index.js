@@ -1,12 +1,22 @@
 const express = require('express');
-const cors = require('cors');
-const app = express();
-const port = 3000;
+const { PORT } = require('./config');
+const { databaseConnection } = require('./database');
+const expressApp = require('./express-app');
 
-app.get('/', (req, res) => {
-  res.send("Hello, world!");
-});
+const StartServer = async() => {
+  const app = express();
 
-app.listen(port, (req, res) => {
-  console.log(`Listening on port ${port}`);
-});
+  await databaseConnection();
+
+  await expressApp(app);
+
+  app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+  })
+  .on('error', (err) => {
+    console.log(err);
+    process.exit();
+  });
+}
+
+StartServer();
