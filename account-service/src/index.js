@@ -6,6 +6,7 @@ const expressApp = require('./express-app');
 const StartServer = async() => {
   const app = express();
 
+  // Koneksi ke database
   await databaseConnection();
 
   await expressApp(app);
