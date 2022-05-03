@@ -1,6 +1,6 @@
 const { responseAPI, verifyJWT } = require('../../utils');
 const { UNAUTHORIZED, INTERNAL_SERVER_ERROR } = require('../../utils/status-codes');
-const { SECRET_KEY } = require('../../config/env')
+const { SECRET_KEY } = require('../../config/env');
 
 module.exports = (req, res, next) => {
   try {
@@ -10,14 +10,14 @@ module.exports = (req, res, next) => {
       return responseAPI(res, UNAUTHORIZED, null, 'Access token tidak ditemukan');
     }
 
-    const { payload } = verifyJWT(accessToken, SECRET_KEY);
+    const { payload, message } = verifyJWT(accessToken, SECRET_KEY);
 
     if (payload) {
       req.user = payload;
       next();
     }
     
-    return responseAPI(res, UNAUTHORIZED, null, 'Access token tidak valid');
+    return responseAPI(res, UNAUTHORIZED, null, message);
   } catch (error) {
     console.error(error);
     return responseAPI(res, INTERNAL_SERVER_ERROR, null, 'Terjadi kesalahan pada server');

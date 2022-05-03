@@ -51,15 +51,15 @@ module.exports.responseAPI = (res, status, data, message) => {
 
 // sign jwt
 module.exports.signJWT = (payload) => {
-  return jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
+  return jwt.sign(payload, SECRET_KEY, { expiresIn: '1m' });
 }
 
 // verify jwt
 module.exports.verifyJWT = (token) => {
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
-    return { payload: decoded, expired: false };
+    return { payload: decoded, message: 'berhasil terverifikasi' };
   } catch (error) {
-    return { payload: null, expired: error.message.includes("jwt expired") };
+    return { payload: null, message: error.message };
   }
 }
