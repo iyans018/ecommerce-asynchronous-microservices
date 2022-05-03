@@ -70,7 +70,7 @@ module.exports.verifyJWT = (token) => {
 module.exports.createRefreshToken = async (user) => {
   // create expired time for token
   const expiredAt = new Date();
-  expiredAt.setDate(expiredAt.getDate() + JWT_REFRESH_EXPIRATION);
+  expiredAt.setSeconds(expiredAt.getSeconds() + JWT_REFRESH_EXPIRATION);
 
   // generate refresh token from uuidv4
   const _token = uuidv4();
@@ -87,6 +87,6 @@ module.exports.createRefreshToken = async (user) => {
 }
 
 // verify refresh token expiration
-module.exports.verifyRefreshToken = async (token) => {
+module.exports.verifyRefreshToken = (token) => {
   return token.expiryDate.getTime() < new Date().getTime();
 }
