@@ -5,6 +5,10 @@ const { OK, UNAUTHORIZED } = require('../../utils/status-codes')
 module.exports = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return responseAPI(res, UNAUTHORIZED, null, 'Email dan password harus diisi');
+    }
   
     const userData = await UserModel.findOne({ email });
 
