@@ -1,5 +1,5 @@
-const { UserModel, RefreshTokenModel } = require('../../models');
-const { responseAPI, comparePassword, signJWT, verifyJWT } = require('../../utils');
+const { UserModel } = require('../../models');
+const { responseAPI, comparePassword, signJWT, createRefreshToken } = require('../../utils');
 const { OK, UNAUTHORIZED } = require('../../utils/status-codes')
 
 module.exports = async (req, res, next) => {
@@ -22,7 +22,7 @@ module.exports = async (req, res, next) => {
     const accessToken = signJWT(payloadToken);
 
     // create refresh token
-    const refreshToken = await RefreshTokenModel.createToken(userData);
+    const refreshToken = await createRefreshToken(userData);
 
     return responseAPI(res, OK, { ...userData._doc, accessToken, refreshToken }, 'Login berhasil');
   } catch (error) {

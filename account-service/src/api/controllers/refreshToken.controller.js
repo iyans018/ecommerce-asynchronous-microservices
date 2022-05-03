@@ -1,6 +1,6 @@
 const { OK, UNAUTHORIZED, INTERNAL_SERVER_ERROR } = require('../../utils/status-codes');
 const { RefreshTokenModel } = require('../../models');
-const { signJWT, responseAPI } = require('../../utils');
+const { signJWT, responseAPI, verifyRefreshToken } = require('../../utils');
 
 module.exports = async (req, res) => {
   const { refreshToken: requestToken } = req.body;
@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
       return responseAPI(res, UNAUTHORIZED, null, 'Refresh token tidak di temukan');
     }
 
-    if (RefreshTokenModel.verifyExpiration(refreshToken)) {
+    if (verifyRefreshToken(refreshToken)) {
       await RefreshTokenModel.findByIdAndRemove(refreshToken._id, { useFindAndModify: false });
 
       return responseAPI(res, UNAUTHORIZED, null, 'Refresh token telah kadaluarsa');

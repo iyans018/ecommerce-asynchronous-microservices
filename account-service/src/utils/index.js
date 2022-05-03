@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { JWT_ACCESS_EXPIRATION, SECRET_KEY } = require('../config/env');
+const { v4: uuidv4 } = require('uuid');
+const { JWT_ACCESS_EXPIRATION, JWT_REFRESH_EXPIRATION ,SECRET_KEY } = require('../config/env');
+const { RefreshTokenModel } = require('../models')
 
 const PRIVATE_KEY = `
 -----BEGIN RSA PRIVATE KEY-----
@@ -51,7 +53,7 @@ module.exports.responseAPI = (res, status, data, message) => {
 
 // sign jwt
 module.exports.signJWT = (payload) => {
-  return jwt.sign(payload, SECRET_KEY, { expiresIn: '1m' });
+  return jwt.sign(payload, SECRET_KEY, { expiresIn: JWT_ACCESS_EXPIRATION });
 }
 
 // verify jwt
@@ -62,4 +64,29 @@ module.exports.verifyJWT = (token) => {
   } catch (error) {
     return { payload: null, message: error.message };
   }
+}
+
+// create refresh token
+module.exports.createRefreshToken = async (user) => {
+  // create expired time for token
+  const expiredAt = new Date();
+  expiredAt.setDate(expiredAt.getDate() + JWT_REFRESH_EXPIRATION);
+
+  // generate refresh token from uuidv4
+  const _token = uuidv4();
+
+  // create new refresh token in database
+  const _object = new RefreshTokenModel({
+    token: _token,
+    user: user._id,
+    expiryDate: expiredAt.getTime()
+  });
+  const refreshToken = await _object.save();
+
+  return refreshToken.token;
+}
+
+// verify refresh token expiration
+module.exports.verifyRefreshToken = async (token) => {
+  return token.expiryDate.getTime() < new Date().getTime();
 }
