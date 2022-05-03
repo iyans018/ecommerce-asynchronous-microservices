@@ -15,9 +15,9 @@ module.exports = (req, res, next) => {
     if (payload) {
       req.user = payload;
       next();
+    } else {
+      return responseAPI(res, UNAUTHORIZED, null, message);
     }
-    
-    return responseAPI(res, UNAUTHORIZED, null, message);
   } catch (error) {
     console.error(error);
     return responseAPI(res, INTERNAL_SERVER_ERROR, null, 'Terjadi kesalahan pada server');
