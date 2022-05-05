@@ -21,7 +21,16 @@ const validateSignIn = (data) => {
   return schema.validate(data);
 }
 
+const validateRefreshToken = (data) => {
+  const schema = Joi.object({
+    refreshToken: Joi.string().required()
+  });
+
+  return schema.validate(data);
+}
+
 module.exports = {
   validateUser,
-  validateSignIn
+  validateSignIn,
+  validateRefreshToken
 }

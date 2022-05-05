@@ -1,6 +1,6 @@
 const { UserModel } = require("../../models");
 const { responseAPI, generateSalt, hashPassword } = require("../../utils");
-const { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require('../../utils/status-codes');
+const { CREATED, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require('../../utils/status-codes');
 const { validateUser } = require('../../config/joi-validation');
 
 module.exports = async (req, res, next) => {
@@ -32,7 +32,7 @@ module.exports = async (req, res, next) => {
     // destructured user to return the response
     const { password, isAdmin, ...rest } = user._doc;
 
-    return responseAPI(res, OK, rest, 'User berhasil didaftarkan');
+    return responseAPI(res, CREATED, rest, 'User berhasil didaftarkan');
   } catch (error) {
     console.error(error);
     return responseAPI(res, INTERNAL_SERVER_ERROR, null, 'User gagal didaftarkan');
