@@ -1,20 +1,21 @@
 const { UserModel } = require('../../models');
 const { responseAPI, comparePassword, signJWT, createRefreshToken } = require('../../utils');
-const { OK, UNAUTHORIZED } = require('../../utils/status-codes')
+const { OK, UNAUTHORIZED, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require('../../utils/status-codes');
+const { validateSignIn } = require('../../config/joi-validation');
 
 module.exports = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return responseAPI(res, UNAUTHORIZED, null, 'Email dan password harus diisi');
-    }
+    // validate body/form input from user sign in
+    const { error } = validateSignIn(req.body);
+    if (error) return responseAPI(res, BAD_REQUEST, null, error.details[0].message);
   
-    const userData = await UserModel.findOne({ email });
+    // find user by email
+    const userData = await UserModel.findOne({ email: req.body.email });
+    if (!userData) return responseAPI(res, UNAUTHORIZED, null, 'Email atau password yang anda masukan salah');
 
-    if (!userData || await !comparePassword(password, userData.password)) {
-      return responseAPI(res, UNAUTHORIZED, null, 'Email atau password yang anda masukan salah');
-    }
+    // cek apakah password sudah benar atau belum
+    const isPasswordValid = await comparePassword(req.body.password, userData.password);
+    if (!isPasswordValid) return responseAPI(res, UNAUTHORIZED, null, 'Email atau password yang anda masukan salah');
 
     // create access token
     const payloadToken = {
@@ -28,8 +29,12 @@ module.exports = async (req, res, next) => {
     // create refresh token
     const refreshToken = await createRefreshToken(userData);
 
-    return responseAPI(res, OK, { ...userData._doc, accessToken, refreshToken }, 'Login berhasil');
+    // destructured userData for the response API
+    const { password, isAdmin, ...userDataResponse } = userData._doc;
+
+    return responseAPI(res, OK, { ...userDataResponse, accessToken, refreshToken }, 'Login berhasil');
   } catch (error) {
     console.log(error);
+    return responseAPI(res, INTERNAL_SERVER_ERROR, null, 'Login gagal');
   }
 }

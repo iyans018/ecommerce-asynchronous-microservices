@@ -7,9 +7,7 @@ module.exports = async (req, res, next) => {
   try {
     // validate body/form input from user register
     const { error } = validateUser(req.body);
-    if (error) {
-      return responseAPI(res, BAD_REQUEST, null, error.details[0].message);
-    }
+    if (error) return responseAPI(res, BAD_REQUEST, null, error.details[0].message);
 
     // check if user already exists
     const registeredUser = await UserModel.findOne({ email: req.body.email });

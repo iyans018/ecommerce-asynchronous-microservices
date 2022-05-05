@@ -15,6 +15,6 @@ module.exports = async (req, res) => {
     return responseAPI(res, OK, deletedRefreshToken, 'Berhasil keluar');
   } catch (error) {
     console.error(error);
-    return responseAPI(res, INTERNAL_SERVER_ERROR, null, error);
+    return responseAPI(res, INTERNAL_SERVER_ERROR, null, 'Gagal sign out');
   }
 }
