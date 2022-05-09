@@ -11,8 +11,6 @@ const UserSchema = new Schema({
     type: String, 
     enum: ["Male", "Female"]
   },
-  age: { type: Number },
-  bio: { type: String },
   phoneNumber: { type: String },
   shippingAddress: {
     address: { type: String },
