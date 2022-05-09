@@ -12,9 +12,9 @@ module.exports = async (req, res) => {
 
     const deletedRefreshToken = await RefreshTokenModel.findOneAndRemove({ token: refreshToken }, { useFindAndModify: false });
 
-    return responseAPI(res, OK, deletedRefreshToken, 'Berhasil keluar');
+    return responseAPI(res, OK, deletedRefreshToken, 'Berhasil logout');
   } catch (error) {
     console.error(error);
-    return responseAPI(res, INTERNAL_SERVER_ERROR, null, 'Gagal sign out');
+    return responseAPI(res, INTERNAL_SERVER_ERROR, null, 'Gagal logout');
   }
 }
