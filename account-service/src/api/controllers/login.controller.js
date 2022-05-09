@@ -1,12 +1,12 @@
 const { UserModel } = require('../../models');
 const { responseAPI, comparePassword, signJWT, createRefreshToken } = require('../../utils');
 const { OK, UNAUTHORIZED, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require('../../utils/status-codes');
-const { validateSignIn } = require('../../config/joi-validation');
+const { validateLogin } = require('../../config/joi-validation');
 
 module.exports = async (req, res, next) => {
   try {
     // validate body/form input from user sign in
-    const { error } = validateSignIn(req.body);
+    const { error } = validateLogin(req.body);
     if (error) return responseAPI(res, BAD_REQUEST, null, error.details[0].message);
   
     // find user by email
