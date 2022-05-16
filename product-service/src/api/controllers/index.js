@@ -1,0 +1,1 @@
+export { default as listProductController } from "./listProduct.controller";

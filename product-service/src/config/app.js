@@ -1,10 +1,8 @@
-"use strict";
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
-const express = require("express");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-
-const { productRoutes } = require('../api/routes');
+import { productRoutes } from "../api/routes";
 
 const app = express();
 
@@ -15,4 +13,4 @@ app.use(cookieParser());
 
 app.use(productRoutes);
 
-module.exports = app;
+export default app;

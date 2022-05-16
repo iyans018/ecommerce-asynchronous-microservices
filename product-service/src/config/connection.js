@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-const { DB_URI } = require('./env');
+import mongoose from "mongoose";
+import env from './env';
 
-module.exports = async() => {
+export default async() => {
   try {
-    await mongoose.connect(DB_URI, {
+    await mongoose.connect(env.DB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

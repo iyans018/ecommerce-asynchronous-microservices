@@ -1,3 +1,1 @@
-module.exports = {
-  productRoutes: require('./product.routes')
-}
+export {default as productRoutes} from "./product.routes";
