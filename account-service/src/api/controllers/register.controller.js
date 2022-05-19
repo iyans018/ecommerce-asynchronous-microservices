@@ -1,7 +1,8 @@
 const { UserModel } = require("../../models");
-const { responseAPI, generateSalt, hashPassword } = require("../../utils");
+const { responseAPI, generateSalt, hashPassword, generateRandomString, sendEmail } = require("../../utils");
 const { CREATED, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require('../../utils/status-codes');
 const { validateUser } = require('../../config/joi-validation');
+const env = require('../../config/env');
 
 module.exports = async (req, res, next) => {
   try {
@@ -25,12 +26,16 @@ module.exports = async (req, res, next) => {
       password: hashedPassword, 
       firstName: req.body.firstName, 
       lastName: req.body.lastName,
-      gender: req.body.gender, 
+      gender: req.body.gender,
+      activationToken: generateRandomString(32),
     });
     const user = await userData.save();
 
+    const message = `${env.BASE_URL}/activate/${user._id}/${user.activationToken}`;
+    await sendEmail(user.email, "Aktivasi Akun", message);
+
     // destructured user to return the response
-    const { password, isAdmin, ...rest } = user._doc;
+    const { password, isAdmin, activationToken, ...rest } = user._doc;
 
     return responseAPI(res, CREATED, rest, 'User berhasil didaftarkan');
   } catch (error) {
