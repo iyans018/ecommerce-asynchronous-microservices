@@ -21,7 +21,8 @@ module.exports = async (req, res, next) => {
     const payloadToken = {
       id: userData._id,
       email: userData.email,
-      name: userData.name,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
       isAdmin: userData.isAdmin,
     }
     const accessToken = signJWT(payloadToken);
