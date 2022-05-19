@@ -25,7 +25,8 @@ module.exports = async (req, res) => {
     const payloadToken = {
       id: refreshToken.user._id,
       email: refreshToken.user.email,
-      name: refreshToken.user.name,
+      firstName: refreshToken.user.firstName,
+      lastName: refreshToken.user.lastName,
       isAdmin: refreshToken.user.isAdmin,
     }
     const newAccessToken = signJWT(payloadToken);
