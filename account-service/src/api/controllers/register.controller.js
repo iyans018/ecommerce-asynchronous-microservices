@@ -37,7 +37,7 @@ module.exports = async (req, res, next) => {
     // destructured user to return the response
     const { password, isAdmin, activationToken, ...rest } = user._doc;
 
-    return responseAPI(res, CREATED, rest, 'User berhasil didaftarkan');
+    return responseAPI(res, CREATED, rest, 'User berhasil didaftarkan. Silahkan cek email anda untuk aktivasi');
   } catch (error) {
     console.error(error);
     return responseAPI(res, INTERNAL_SERVER_ERROR, null, 'User gagal didaftarkan');
