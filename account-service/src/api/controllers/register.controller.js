@@ -23,9 +23,9 @@ module.exports = async (req, res, next) => {
     const userData = new UserModel({ 
       email: req.body.email,
       password: hashedPassword, 
-      name: req.body.name, 
+      firstName: req.body.name, 
+      lastName: req.body.lastName,
       gender: req.body.gender, 
-      phoneNumber: req.body.phoneNumber
     });
     const user = await userData.save();
 
