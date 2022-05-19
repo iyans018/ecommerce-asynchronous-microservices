@@ -39,9 +39,28 @@ const validateChangePassword = (data) => {
   return schema.validate(data);
 }
 
+const validateForgotPassword = (data) => {
+  const schema = Joi.object({
+    email: Joi.string().email().required()
+  });
+
+  return schema.validate(data);
+}
+
+const validateResetPassword = (data) => {
+  const schema = Joi.object({
+    newPassword: Joi.string().required().min(6),
+    reTypeNewPassword: Joi.string().required().min(6)
+  });
+
+  return schema.validate(data); 
+}
+
 module.exports = {
   validateUser,
   validateLogin,
   validateRefreshToken,
-  validateChangePassword
+  validateChangePassword,
+  validateForgotPassword,
+  validateResetPassword
 }

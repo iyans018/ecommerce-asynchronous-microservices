@@ -4,7 +4,8 @@ const router = express.Router();
 const { 
   loginController, registerController, refreshTokenController, 
   logoutController, changePasswordController, profileController,
-  editProfileController, activateEmailController
+  editProfileController, activateEmailController, forgotPasswordController,
+  resetPasswordController
 } = require('../controllers');
 const verifyToken = require('../middleware/verifyToken');
 
@@ -12,6 +13,8 @@ router.get('/', verifyToken, (req, res) => res.status(200).json({ message: "OK" 
 router.post('/login', loginController);
 router.post('/register', registerController);
 router.get('/activate/:id/:token', activateEmailController);
+router.post('/forgot-password', forgotPasswordController);
+router.post('/reset-password/:id/:token', resetPasswordController);
 router.post('/refresh-token', refreshTokenController);
 router.delete('/logout', logoutController);
 router.put('/change-password', verifyToken, changePasswordController);

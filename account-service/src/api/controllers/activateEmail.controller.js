@@ -1,6 +1,6 @@
 const { UserModel: User } = require("../../models");
 const { responseAPI } = require("../../utils");
-const { CREATED, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require('../../utils/status-codes');
+const { NO_CONTENT, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require('../../utils/status-codes');
 
 module.exports = async (req, res) => {
   try {
@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
       { new: true }
     );
 
-    return responseAPI(res, CREATED, null, "User berhasil diaktivasi");
+    return responseAPI(res, NO_CONTENT, null, "User berhasil diaktivasi");
   } catch (error) {
     console.error(error);
     responseAPI(res, INTERNAL_SERVER_ERROR, null, 'Gagal aktivasi akun');

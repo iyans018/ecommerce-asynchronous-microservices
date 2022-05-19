@@ -13,7 +13,8 @@ const UserSchema = new Schema({
     enum: ["Male", "Female"]
   },
   isActive: { type: Boolean, default: false },
-  activationToken: { type: String }
+  activationToken: { type: String },
+  forgotPasswordToken: { type: String }
 }, { timestamps: true });
 
 const User = mongoose.model("User", UserSchema);

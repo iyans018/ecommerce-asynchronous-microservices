@@ -23,7 +23,7 @@ module.exports.comparePassword = async (password, hashedPassword) => {
 
 // Formatting response API in JSON
 module.exports.responseAPI = (res, status, data, message) => {
-  if (status === 200 || status === 201) {
+  if (status === 200 || status === 201 || status === 204) {
     return res.status(status).json({ success: true, data, message });
   }
 

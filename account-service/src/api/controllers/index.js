@@ -2,6 +2,8 @@ module.exports = {
   loginController: require('./login.controller'),
   registerController: require('./register.controller'),
   activateEmailController: require('./activateEmail.controller'),
+  forgotPasswordController: require('./forgotPassword.controller'),
+  resetPasswordController: require('./resetPassword.controller'),
   refreshTokenController: require('./refreshToken.controller'),
   logoutController: require('./logout.controller'),
   changePasswordController: require('./changePassword.controller'),
