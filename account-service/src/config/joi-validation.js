@@ -5,7 +5,7 @@ const validateUser = (data) => {
     email: Joi.string().email().required(),
     password: Joi.string().required().min(6),
     firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
+    lastName: Joi.string(),
     gender: Joi.string().required(),
   });
 

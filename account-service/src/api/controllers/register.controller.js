@@ -23,7 +23,7 @@ module.exports = async (req, res, next) => {
     const userData = new UserModel({ 
       email: req.body.email,
       password: hashedPassword, 
-      firstName: req.body.name, 
+      firstName: req.body.firstName, 
       lastName: req.body.lastName,
       gender: req.body.gender, 
     });

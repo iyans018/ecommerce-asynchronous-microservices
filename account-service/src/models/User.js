@@ -12,7 +12,7 @@ const UserSchema = new Schema({
     type: String, 
     enum: ["Male", "Female"]
   },
-});
+}, { timestamps: true });
 
 const User = mongoose.model("User", UserSchema);
 
