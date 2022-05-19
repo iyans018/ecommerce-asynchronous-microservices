@@ -17,6 +17,9 @@ module.exports = async (req, res, next) => {
     const isPasswordValid = await comparePassword(req.body.password, userData.password);
     if (!isPasswordValid) return responseAPI(res, UNAUTHORIZED, null, 'Email atau password yang anda masukan salah');
 
+    // cek apakah user sudah diaktivasi atau belum
+    if (!userData.isActive) return responseAPI(res, UNAUTHORIZED, null, 'User belum diaktivasi');
+
     // create access token
     const payloadToken = {
       id: userData._id,
